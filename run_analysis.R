@@ -1,19 +1,26 @@
 # We start with getting the zipped data folder 
 
-# download the zip folder to the working directory.
+## download,extract the zip folder to the working directory.
 
 url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-zipFile <- download.file(url, "file.zip")
-unzip(zipFile, exdir = ".")
+fileName = paste(sample(100:500),"file.zip", sep="")
+zipFile <- download.file(url, fileName)
+unzip(zipFile)
+setwd("UCI HAR Dataset")
 
-# load the data
+## load the data
 
-# merge the training and test sets
+features <- read.csv("features.txt", sep="")
+activity_labels <- read.csv("activity_labels",sep="")
 
-# extract mean and std measurements
 
-# use activity names on the data set
 
-# label the data set
+## merge the training and test sets
 
-# tidy the data
+## extract mean and std measurements
+
+## use activity names on the data set
+
+## label the data set
+
+## tidy the data
