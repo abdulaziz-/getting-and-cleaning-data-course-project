@@ -23,8 +23,8 @@ y_test <- read.csv("test/y_test.txt", sep="", header=F)
 
 subject <- rbind(subject_train, subject_test)
 colnames(subject) <- "subject"
-
 outcome <- rbind(y_train, y_test)
+
 ## use activity names on the data set
 outcome <- merge(outcome, activity_labels, by=1)[,2]
 data <- rbind(X_train, X_test)
@@ -34,13 +34,16 @@ colnames(data) <- features[,2]
 data <- cbind(subject,data,outcome)
 
 ## extract mean and std measurements
-sub <- grep("[Mm][Ee][aA][nN]|[Ss][tT][dD]", colnames(data))
+sub <- grep("[Mm][Ee][aA][nN]|[Ss][tT][dD]|outcome|subject", colnames(data))
 mean_std <- data[,sub]
 
 names(mean_std) <- gsub("-", "", names(mean_std), fixed = T)
 names(mean_std) <- gsub("()", "", names(mean_std), fixed = T)
 names(mean_std) <- gsub(",", "and", names(mean_std), fixed = T)
 
+library(dplyr)
 ## tidy the data
-#means <- 
-write.csv(means, "output.txt")
+outputData <- aggregate(. ~subject + outcome, mean_std, mean)
+outputData <-outputData[order(outputData$subject,outputData$outcome),]
+write.csv(outputData, "output.txt", row.name=F)
+
